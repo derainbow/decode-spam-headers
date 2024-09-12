@@ -2099,37 +2099,37 @@ class SMTPHeadersAnalysis:
     @staticmethod
     def parseExchangeVersion(lookup):
 
-        # Try strict matching
-        for ver in SMTPHeadersAnalysis.Exchange_Versions:
-            if ver.version == lookup:
-                return ver
+        # # Try strict matching
+        # for ver in SMTPHeadersAnalysis.Exchange_Versions:
+        #     if ver.version == lookup:
+        #         return ver
 
-        lookupparsed = packaging.version.parse(lookup)
+        # lookupparsed = packaging.version.parse(lookup)
 
-        # Go with version-wise comparison to fuzzily find proper version name
-        sortedversions = sorted(SMTPHeadersAnalysis.Exchange_Versions)
+        # # Go with version-wise comparison to fuzzily find proper version name
+        # sortedversions = sorted(SMTPHeadersAnalysis.Exchange_Versions)
 
-        match = re.search(r'\d{1,}\.\d{1,}\.\d{1,}', lookup, re.I)
-        if not match:
-            return None
+        # match = re.search(r'\d{1,}\.\d{1,}\.\d{1,}', lookup, re.I)
+        # if not match:
+        #     return None
 
-        for i in range(len(sortedversions)):
-            if sortedversions[i].version.startswith(lookup):
-                sortedversions[i].name = 'fuzzy match: ' + sortedversions[i].name
-                return sortedversions[i]
+        # for i in range(len(sortedversions)):
+        #     if sortedversions[i].version.startswith(lookup):
+        #         sortedversions[i].name = 'fuzzy match: ' + sortedversions[i].name
+        #         return sortedversions[i]
 
-        for i in range(len(sortedversions)):
-            prevver = packaging.version.parse('0.0')
-            nextver = packaging.version.parse('99999.0')
-            if i > 0:
-                prevver = packaging.version.parse(sortedversions[i-1].version)
-            thisver = packaging.version.parse(sortedversions[i].version)
-            if i + 1 < len(sortedversions):
-                nextver = packaging.version.parse(sortedversions[i+1].version)
+        # for i in range(len(sortedversions)):
+        #     prevver = packaging.version.parse('0.0')
+        #     nextver = packaging.version.parse('99999.0')
+        #     if i > 0:
+        #         prevver = packaging.version.parse(sortedversions[i-1].version)
+        #     thisver = packaging.version.parse(sortedversions[i].version)
+        #     if i + 1 < len(sortedversions):
+        #         nextver = packaging.version.parse(sortedversions[i+1].version)
 
-            if lookupparsed >= thisver and lookupparsed < nextver:
-                sortedversions[i].name = 'fuzzy match: ' + sortedversions[i].name
-                return sortedversions[i]
+        #     if lookupparsed >= thisver and lookupparsed < nextver:
+        #         sortedversions[i].name = 'fuzzy match: ' + sortedversions[i].name
+        #         return sortedversions[i]
 
         return None
 
